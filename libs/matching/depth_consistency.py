@@ -106,7 +106,7 @@ class DepthConsistency():
         outputs[('warp_depth', inputs['cur_id'], inputs['ref_id'])] = nnFunc.grid_sample(
             inputs[("depth",  inputs['ref_id'])],
             reproj_xy,
-            padding_mode="border")
+            padding_mode="border", align_corners=True)
             
         # Reproject cur_depth
         transformed_cam_points = torch.matmul(T[:, :3, :], cam_points)

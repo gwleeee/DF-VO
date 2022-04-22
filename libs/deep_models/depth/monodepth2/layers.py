@@ -328,7 +328,7 @@ def get_warp_flow(
     warp_forward_flow = F.grid_sample(
                     -source_backward_flow,
                     pix_forward,
-                    padding_mode="border")
+                    padding_mode="border", align_corners=True)
     flow_diff = (source_forward_flow - warp_forward_flow).abs()
     flow_data["forward"] = warp_forward_flow
     flow_data["forward_diff"] = flow_diff
@@ -337,7 +337,7 @@ def get_warp_flow(
     warp_backward_flow = F.grid_sample(
                     -source_forward_flow,
                     pix_backward,
-                    padding_mode="border")
+                    padding_mode="border", align_corners=True)
     flow_diff = (source_backward_flow - warp_backward_flow).abs()
     flow_data["backward"] = warp_backward_flow
     flow_data["backward_diff"] = flow_diff

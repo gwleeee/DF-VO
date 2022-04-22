@@ -35,9 +35,9 @@ def flow_warp(x, flo, mul=True):
                         dim=1)
 
     vgrid = vgrid.permute(0, 2, 3, 1)
-    output = F.grid_sample(x, vgrid, padding_mode='border')
+    output = F.grid_sample(x, vgrid, padding_mode='border', align_corners=True)
     mask = torch.ones(x.size(), device=x.device)
-    mask = F.grid_sample(mask, vgrid, padding_mode='zeros')
+    mask = F.grid_sample(mask, vgrid, padding_mode='zeros', align_corners=True)
 
     mask[mask < 0.9999] = 0
     mask[mask > 0] = 1

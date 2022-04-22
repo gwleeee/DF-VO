@@ -179,7 +179,7 @@ class DeepDepth():
                 img_ref = inputs[("color", frame_id, 0)]
                 outputs[('warp_img', 1, frame_id, s)] = nnFunc.grid_sample(
                                     img_ref, outputs[('reproj_xy', 1, frame_id, s)], 
-                                    mode='bilinear', padding_mode='border')
+                                    mode='bilinear', padding_mode='border', align_corners=True)
         
         return outputs
 
@@ -271,7 +271,7 @@ class DeepDepth():
                     warp_disp = nnFunc.grid_sample(
                         outputs[("disp",  frame_id, scale)],
                         outputs[("reproj_xy", 1, frame_id, scale)],
-                        padding_mode="border")
+                        padding_mode="border", align_corners=True)
                     _, warp_depth = disp_to_depth(warp_disp[:, 0], 0.1, 100)
                     
                     # Reproject ref_depth

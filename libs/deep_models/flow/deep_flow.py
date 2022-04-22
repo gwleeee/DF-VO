@@ -180,7 +180,7 @@ class DeepFlow():
             flow_diff (tensor, [NxHxWx1]): flow inconsistency error map
         """
         # Warp flow2 to flow1
-        warp_flow1 = F.grid_sample(-flow2, px1on2)
+        warp_flow1 = F.grid_sample(-flow2, px1on2, align_corners=True)
 
         # Calculate flow difference
         flow_diff = (flow1 - warp_flow1)
@@ -267,7 +267,7 @@ class DeepFlow():
                     outputs[("color_flow", 0, f_i, scale)] = F.grid_sample(
                         inputs[("color", f_i, source_scale)],
                         pix_coords,
-                        padding_mode="border")
+                        padding_mode="border", align_corners=True)
                     
                     if self.flow_forward_backward:
                         # Warp image using backward flow
@@ -278,7 +278,7 @@ class DeepFlow():
                         outputs[("color_flow", f_i, 0, scale)] = F.grid_sample(
                             inputs[("color", 0, source_scale)],
                             pix_coords,
-                            padding_mode="border") 
+                            padding_mode="border", align_corners=True) 
         return outputs
 
     def compute_flow_losses(self, inputs, outputs):
